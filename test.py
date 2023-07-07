@@ -185,3 +185,68 @@ class TestDictDates(unittest.TestCase):
         for i in range(9):
             for j in range (9):
                 self.assertNotEqual(result,not_expected)
+    
+    def test_if_sudoku_check_filler_complitelly_filled_sudoku(self):
+        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'], ['X', '6', '8', 'X', 'X', 'X', 'X', 'X', 'X'], ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        sudoku = main.Sudoku()
+        sudoku.table = inp_board
+        sudoku.check_filler()
+        result = sudoku.table
+        not_expected = 'X'    
+        for i in range(9):
+            for j in range (9):
+                self.assertNotEqual(result,not_expected)
+
+    def test_whether_sudoku_fill_remover_removes_correct_number_of_positions(self):
+        inp_how_many_remain = 10
+        inp_board = [['6', '3', '7', '4', '1', '5', '2', '8', '9'], ['4', '1', '8', '2', '3', '9', '6', '5', '7'], ['2', '5', '9', '7', '6', '8', '3', '1', '4'], ['1', '2', '5', '9', '8', '3', '4', '7', '6'], ['8', '4', '6', '5', '7', '2', '9', '3', '1'], ['7', '9', '3', '6', '4', '1', '8', '2', '5'], ['3', '7', '1', '8', '9', '4', '5', '6', '2'], ['5', '8', '4', '1', '2', '6', '7', '9', '3'], ['9', '6', '2', '3', '5', '7', '1', '4', '8']]
+        sudoku = main.Sudoku()
+        sudoku.table = inp_board
+        sudoku.fill_removal(inp_how_many_remain)
+        result = sudoku.table
+        count_remaining = 0    
+        for i in range(9):
+            for j in range (9):
+                if result[i][j]!='X':
+                    count_remaining+=1
+        expected = inp_how_many_remain
+        self.assertEqual(expected,count_remaining)
+
+    def test_wheather_generating_single_solutional_sudoku_retruns_False_to_not_enaguh_remaining(self):
+        inp_how_many_remain = 10
+        sudoku = main.Sudoku()
+        result = sudoku.generate_single_solutional(inp_how_many_remain)
+        expected = False
+        self.assertEqual(expected, result)
+    
+    def test_wheather_generating_single_soulutional_final_returns_message_if_fails_to_generate(self):
+        inp_how_many_remain = 10
+        sudoku = main.Sudoku()
+        result = sudoku.generate_single_solutional_final(inp_how_many_remain)
+        expected = "I cannot generate single solutional sudoku with that few numbers"
+        self.assertEqual(expected, result)
+
+    def test_wheather_generating_single_solutional_final_returns_sudoku_if_creates_one(self):
+        inp_how_many_remain = 80
+        sudoku = main.Sudoku()
+        result = sudoku.generate_single_solutional_final(inp_how_many_remain)
+        digits = ['X','1','2','3','4','5','6','7','8','9']
+        wall_1 = '|'
+        wall_2 = '-'
+        space = ' '
+        divider = '\n'
+        tab_wall_1=[7, 15, 30, 38, 53, 61, 99, 107, 122, 130, 145, 153, 191, 199, 214, 222, 237, 245]
+        tab_wall_2=[70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182]
+        tab_spaces =[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110, 112, 115, 117, 119, 121, 123, 125, 127, 129, 131, 133, 135, 138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 161, 163, 165, 167, 169, 171, 173, 175, 177, 179, 181, 184, 186, 188, 190, 192, 194, 196, 198, 200, 202, 204, 207, 209, 211, 213, 215, 217, 219, 221, 223, 225, 227, 230, 232, 234, 236, 238, 240, 242, 244, 246, 248, 250]
+        tab_n=[22, 45, 68, 91, 114, 137, 160, 183, 206, 229, 252]
+        for i in range(len(result)):
+            if i in tab_wall_1:
+                self.assertEqual(result[i],wall_1)
+            elif i in tab_wall_2:
+                self.assertEqual(result[i],wall_2)
+            elif i in tab_n:
+                self.assertEqual(result[i],divider)
+            elif i in tab_spaces:
+                self.assertEqual(result[i],space)
+            else:
+                self.assertIn(result[i],digits)
