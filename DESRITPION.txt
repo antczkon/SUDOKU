@@ -1,0 +1,2 @@
+I was based my gneration of iflled sudoku on this algorythm
+https://medium.com/codex/building-a-sudoku-solver-and-generator-in-python-2-3-5eef3141702c
