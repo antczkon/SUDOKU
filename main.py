@@ -104,26 +104,8 @@ class Sudoku:
         self.fill_unconnected_squares()
         unfilled_positions = self.find_unfilled_pos()
         for position in unfilled_positions:
-            for iteration in range(9): 
-                digits =  ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-                chosen = random.choice(digits)
-                if self.check_all(chosen,position[0],position[1]):
-                    temp = self.table
-                    self.table[position[0]][position[1]] = chosen
-                    if self.solver() != False:
-                        self.table = temp
-                        self.table[position[0]][position[1]] = chosen
-                        break
-                    else:
-                        self.table = temp
-                        digits.remove(chosen)
-                else:
-                    digits.remove(chosen)
-    def check_filler(self):
-        unfilled_positions = self.find_unfilled_pos()
-        for position in unfilled_positions: 
             digits =  ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-            for iteration in range(9):
+            for iteration in range(9): 
                 chosen = random.choice(digits)
                 if self.check_all(chosen,position[0],position[1]):
                     temp = self.table
@@ -137,6 +119,8 @@ class Sudoku:
                         digits.remove(chosen)
                 else:
                     digits.remove(chosen)
+
+
     def fill_removal(self, how_many_remain):
         positions= []
         for i in range (9):
@@ -147,58 +131,45 @@ class Sudoku:
             self.table[chosen[0]][chosen[1]] = "X"
             positions.remove(chosen)
 
-    
-    def generate_single_solutional(self, how_many_remain):
-        self.generate_filled()
-        self.fill_removal(how_many_remain)
-
-        after_removal = copy.deepcopy(self.table)
-
-        random.seed(10)
-        self.check_filler()
-        first_try = copy.deepcopy(self.table)
-        self.table = copy.deepcopy(after_removal)
-
-
-        random.seed(11)
-        self.check_filler()
-        second_try = copy.deepcopy(self.table)
-        self.table = copy.deepcopy(after_removal)
-
-
-        random.seed(12)
-        self.check_filler()
-        third_try = copy.deepcopy(self.table)
-        self.table = copy.deepcopy(after_removal)
-
-        if first_try != second_try or first_try != third_try:
-            self.table = [["X" for i in range(9)] for j in range(9)]
-            return False
 
     def generate_single_solutional_final(self, how_many_remain):
-        for i in range (20):
-            print(i)
-            seed = random.randint(0,100)
-            random.seed(seed)
-            if self.generate_single_solutional(how_many_remain) != False:
-                return self.show()
+        if how_many_remain>=30:
+            while True:
+                self.generate_filled()
+                self.fill_removal(how_many_remain)
+                if self.check_how_many_solutions(0) == 1:
+                    return self.show()
+                self.table = [["X" for i in range(9)] for j in range(9)]
         return "I cannot generate single solutional sudoku with that few numbers"
 
-    def check_how_many_solutions(self, a):
+    def check_how_many_solutions(self, count):
 
         unfilled = self.find_unfilled_pos()
         if unfilled == []:
+            count = count+1
             return True
         row,col = unfilled[0][0],unfilled[0][1]
         for num in range (1,10):
             num = f"{num}"
+            #print(num)
             if self.check_row_for_num(num,row,col) and self.check_col_for_num(num,row,col) and self.check_square_for_num(num,row,col):
                 self.table[row][col] = num
             
-                if self.check_how_many_solutions(a):
-                    a+=1
-                    return False
+                result = self.check_how_many_solutions(count)
+                if type(result) == type(2):
+                    if result > count:
+                        count = result
+                        if count > 1:
+                            return 2
+                
+                elif result == True:
+                    count += 1 
+                    if count > 1:
+                        return 2
             
                 self.table[row][col] = 'X'
-        
-        return False
+        return count
+    
+sud = Sudoku()
+print(sud.table)
+print(sud.generate_single_solutional_final(30))

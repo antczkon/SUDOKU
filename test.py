@@ -186,17 +186,6 @@ class TestDictDates(unittest.TestCase):
             for j in range (9):
                 self.assertNotEqual(result,not_expected)
     
-    def test_if_sudoku_check_filler_complitelly_filled_sudoku(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'], ['X', '6', '8', 'X', 'X', 'X', 'X', 'X', 'X'], ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
-        sudoku = main.Sudoku()
-        sudoku.table = inp_board
-        sudoku.check_filler()
-        result = sudoku.table
-        not_expected = 'X'    
-        for i in range(9):
-            for j in range (9):
-                self.assertNotEqual(result,not_expected)
-
     def test_whether_sudoku_fill_remover_removes_correct_number_of_positions(self):
         inp_how_many_remain = 10
         inp_board = [['6', '3', '7', '4', '1', '5', '2', '8', '9'], ['4', '1', '8', '2', '3', '9', '6', '5', '7'], ['2', '5', '9', '7', '6', '8', '3', '1', '4'], ['1', '2', '5', '9', '8', '3', '4', '7', '6'], ['8', '4', '6', '5', '7', '2', '9', '3', '1'], ['7', '9', '3', '6', '4', '1', '8', '2', '5'], ['3', '7', '1', '8', '9', '4', '5', '6', '2'], ['5', '8', '4', '1', '2', '6', '7', '9', '3'], ['9', '6', '2', '3', '5', '7', '1', '4', '8']]
@@ -215,23 +204,26 @@ class TestDictDates(unittest.TestCase):
     def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one(self):
         inp_table = [['7', '4', '3', '8', '1', '2', '5', '9', '6'], ['2', '1', '5', '9', '3', '6', '4', '8', '7'], ['8', '9', '6', '7', '5', '4', '1', '2', '3'], ['1', '3', '7', '4', '2', '8', '9', '6', '5'], ['4', '6', '2', '3', '9', '5', '8', '7', '1'], ['9', '5', '8', '6', '7', '1', '3', '4', '2'], ['5', '8', 'X', '2', '6', '9', '7', '3', '4'], ['6', '7', '4', '5', '8', '3', '2', '1', '9'], ['3', '2', '9', '1', '4', '7', '6', '5', '8']]
         sudoku = main.Sudoku()
-        result = main.check_how_many_solutions(0)
+        sudoku.table = inp_table
+        result = sudoku.check_how_many_solutions(0)
         expected = 1
         self.assertEqual(result,expected)
-"""    def test_wheather_generating_single_solutional_sudoku_retruns_False_to_not_enaguh_remaining(self):
-        inp_how_many_remain = 10
-        sudoku = main.Sudoku()
-        result = sudoku.generate_single_solutional(inp_how_many_remain)
-        expected = False
-        self.assertEqual(expected, result)
-    
-    def test_wheather_generating_single_soulutional_final_returns_message_if_fails_to_generate(self):
-        inp_how_many_remain = 10
-        sudoku = main.Sudoku()
-        result = sudoku.generate_single_solutional_final(inp_how_many_remain)
-        expected = "I cannot generate single solutional sudoku with that few numbers"
-        self.assertEqual(expected, result)
 
+    def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one_2(self):
+        inp_table = [['X', '8', 'X', 'X', '1', 'X', '5', '7', '9'], ['3', '1', '9', '5', '4', '7', '2', 'X', '8'], ['7', '5', '2', '6', 'X', '8', 'X', 'X', '1'], ['2', '9', '8', '1', '7', '5', '6', '4', '3'], ['1', '3', '5', '4', 'X', '2', '8', '9', '7'], ['X', 'X', '4', '8', 'X', '9', '1', '2', 'X'], ['X', '6', '3', 'X', '2', '1', '7', 'X', '4'], ['5', 'X', '7', 'X', '8', 'X', '9', '1', '6'], ['9', '4', '1', '7', '5', '6', 'X', '8', 'X']]
+        sudoku = main.Sudoku()
+        sudoku.table = inp_table
+        result = sudoku.check_how_many_solutions(0)
+        expected = 1
+        self.assertEqual(result,expected)
+    def test_checking_how_many_solutions_given_sudoku_with_more_than_one_solution_returns_more_than_one(self):
+        inp_table = [['9', '7', 'X', 'X', '2', '1', 'X', 'X', '8'], ['X', '2', '5', '4', '6', '8', 'X', '9', 'X'], ['X', 'X', 'X', 'X', '7', '9', 'X', 'X', '4'], ['5', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '1'], ['X', '4', '9', 'X', 'X', 'X', 'X', 'X', '6'], ['6', '1', 'X', 'X', 'X', 'X', 'X', '4', 'X'], ['X', 'X', 'X', '9', '5', 'X', '7', 'X', 'X'], ['X', '5', '1', 'X', 'X', 'X', 'X', '8', 'X'], ['X', 'X', '3', 'X', 'X', '6', 'X', 'X', 'X']]
+        sudoku = main.Sudoku()
+        sudoku.table = inp_table
+        result = sudoku.check_how_many_solutions(0)
+        expected = 1
+        self.assertGreater(result,expected)
+    
     def test_wheather_generating_single_solutional_final_returns_sudoku_if_creates_one(self):
         inp_how_many_remain = 80
         sudoku = main.Sudoku()
@@ -256,4 +248,11 @@ class TestDictDates(unittest.TestCase):
                 self.assertEqual(result[i],space)
             else:
                 self.assertIn(result[i],digits)
-"""
+
+
+    def test_wheather_generating_single_soulutional_final_returns_message_if_fails_to_generate(self):
+        inp_how_many_remain = 10
+        sudoku = main.Sudoku()
+        result = sudoku.generate_single_solutional_final(inp_how_many_remain)
+        expected = "I cannot generate single solutional sudoku with that few numbers"
+        self.assertEqual(expected, result)
