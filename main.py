@@ -121,9 +121,9 @@ class Sudoku:
                     digits.remove(chosen)
     def check_filler(self):
         unfilled_positions = self.find_unfilled_pos()
-        for position in unfilled_positions:
-            for iteration in range(9): 
-                digits =  ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+        for position in unfilled_positions: 
+            digits =  ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+            for iteration in range(9):
                 chosen = random.choice(digits)
                 if self.check_all(chosen,position[0],position[1]):
                     temp = self.table
@@ -184,4 +184,4 @@ class Sudoku:
         return "I cannot generate single solutional sudoku with that few numbers"
 
 sud = Sudoku()
-print(sud.generate_single_solutional_final(80))
+print(sud.generate_single_solutional_final(40))
