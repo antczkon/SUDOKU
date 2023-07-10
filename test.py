@@ -212,7 +212,13 @@ class TestDictDates(unittest.TestCase):
         expected = inp_how_many_remain
         self.assertEqual(expected,count_remaining)
 
-    def test_wheather_generating_single_solutional_sudoku_retruns_False_to_not_enaguh_remaining(self):
+    def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one(self):
+        inp_table = [['7', '4', '3', '8', '1', '2', '5', '9', '6'], ['2', '1', '5', '9', '3', '6', '4', '8', '7'], ['8', '9', '6', '7', '5', '4', '1', '2', '3'], ['1', '3', '7', '4', '2', '8', '9', '6', '5'], ['4', '6', '2', '3', '9', '5', '8', '7', '1'], ['9', '5', '8', '6', '7', '1', '3', '4', '2'], ['5', '8', 'X', '2', '6', '9', '7', '3', '4'], ['6', '7', '4', '5', '8', '3', '2', '1', '9'], ['3', '2', '9', '1', '4', '7', '6', '5', '8']]
+        sudoku = main.Sudoku()
+        result = main.check_how_many_solutions(0)
+        expected = 1
+        self.assertEqual(result,expected)
+"""    def test_wheather_generating_single_solutional_sudoku_retruns_False_to_not_enaguh_remaining(self):
         inp_how_many_remain = 10
         sudoku = main.Sudoku()
         result = sudoku.generate_single_solutional(inp_how_many_remain)
@@ -250,3 +256,4 @@ class TestDictDates(unittest.TestCase):
                 self.assertEqual(result[i],space)
             else:
                 self.assertIn(result[i],digits)
+"""

@@ -176,12 +176,29 @@ class Sudoku:
             return False
 
     def generate_single_solutional_final(self, how_many_remain):
-        for i in range (100):
+        for i in range (20):
+            print(i)
             seed = random.randint(0,100)
             random.seed(seed)
             if self.generate_single_solutional(how_many_remain) != False:
                 return self.show()
         return "I cannot generate single solutional sudoku with that few numbers"
 
-sud = Sudoku()
-print(sud.generate_single_solutional_final(40))
+    def check_how_many_solutions(self, a):
+
+        unfilled = self.find_unfilled_pos()
+        if unfilled == []:
+            return True
+        row,col = unfilled[0][0],unfilled[0][1]
+        for num in range (1,10):
+            num = f"{num}"
+            if self.check_row_for_num(num,row,col) and self.check_col_for_num(num,row,col) and self.check_square_for_num(num,row,col):
+                self.table[row][col] = num
+            
+                if self.check_how_many_solutions(a):
+                    a+=1
+                    return False
+            
+                self.table[row][col] = 'X'
+        
+        return False
