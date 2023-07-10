@@ -170,6 +170,6 @@ class Sudoku:
                 self.table[row][col] = 'X'
         return count
     
-sud = Sudoku()
-print(sud.table)
-print(sud.generate_single_solutional_final(30))
+#sud = Sudoku()
+#print(sud.table)
+#print(sud.generate_single_solutional_final(30))
