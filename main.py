@@ -3,11 +3,14 @@ import copy
 
 
 class Sudoku:
-    def __init__(self):
-        self.table = [["X" for i in range(9)] for j in range(9)]
+    def __init__(self, table):
+        self.table = table
 
-
-    def show(self):
+    @classmethod
+    def for_empty(cls):
+        return cls(table = [["X" for i in range(9)] for j in range(9)])
+    
+    def __str__(self):
         to_print = ''
         board = self.table
         for i in range (len(board)):
@@ -23,6 +26,7 @@ class Sudoku:
                 else:
                     to_print += f"{board[i][j]} "
         return to_print
+
 
     def check_row_for_num(self, num, x, y):
         row = self.table[x]
@@ -53,23 +57,39 @@ class Sudoku:
                 if self.table[i][j]=='X':
                     tab.append([i,j])
         return tab
+
+    def check_all(self,num,x,y):
+        if self.check_col_for_num(num,x,y) and self.check_row_for_num(num,x,y) and self.check_square_for_num(num,x,y):
+            return True
+        return False
+
+
+class Solver(Sudoku):
+    def __init__(self, table):
+        super().__init__(table)
     
-    def solver(self):
+    def solve(self):
         unfilled = self.find_unfilled_pos()
         if unfilled == []:
             return True
         row,col = unfilled[0][0],unfilled[0][1]
         for num in range (1,10):
             num = f"{num}"
-            if self.check_row_for_num(num,row,col) and self.check_col_for_num(num,row,col) and self.check_square_for_num(num,row,col):
+            if self.check_all(num,row,col):
                 self.table[row][col] = num
             
-                if self.solver():
+                if self.solve():
                     return self.table
             
                 self.table[row][col] = 'X'
         
         return False
+    
+
+class Filled_generator(Sudoku):
+    def __init__(self):
+        self.table = [["X" for i in range(9)] for j in range(9)]
+    
     
     def fill_unconnected_squares(self):
         pos = self.find_unfilled_pos()
@@ -95,10 +115,6 @@ class Sudoku:
                     digits3.remove(chosen)
                     self.table[i][j] = chosen
 
-    def check_all(self,num,x,y):
-        if self.check_col_for_num(num,x,y) and self.check_row_for_num(num,x,y) and self.check_square_for_num(num,x,y):
-            return True
-        return False
 
     def generate_filled(self):
         self.fill_unconnected_squares()
@@ -108,9 +124,11 @@ class Sudoku:
             for iteration in range(9): 
                 chosen = random.choice(digits)
                 if self.check_all(chosen,position[0],position[1]):
-                    temp = self.table
+                    temp = copy.deepcopy(self.table)
                     self.table[position[0]][position[1]] = chosen
-                    if self.solver() != False:
+                    board_to_be_checked_by_solver = copy.deepcopy(self.table)
+                    checking_by_solver = Solver(board_to_be_checked_by_solver).solve()
+                    if checking_by_solver != False:
                         self.table = temp
                         self.table[position[0]][position[1]] = chosen
                         break
@@ -121,6 +139,16 @@ class Sudoku:
                     digits.remove(chosen)
 
 
+class Sudoku_generator(Filled_generator):
+
+    def __init__(self):
+        a = Filled_generator()
+        a.generate_filled()
+        self.table = a.table
+    
+    def __str__(self):
+        return super().__str__()
+    
     def fill_removal(self, how_many_remain):
         positions= []
         for i in range (9):
@@ -130,18 +158,7 @@ class Sudoku:
             chosen = random.choice(positions)
             self.table[chosen[0]][chosen[1]] = "X"
             positions.remove(chosen)
-
-
-    def generate_single_solutional_final(self, how_many_remain):
-        if how_many_remain>=30:
-            while True:
-                self.generate_filled()
-                self.fill_removal(how_many_remain)
-                if self.check_how_many_solutions(0) == 1:
-                    return self.show()
-                self.table = [["X" for i in range(9)] for j in range(9)]
-        return "I cannot generate single solutional sudoku with that few numbers"
-
+    
     def check_how_many_solutions(self, count):
 
         unfilled = self.find_unfilled_pos()
@@ -152,7 +169,9 @@ class Sudoku:
         for num in range (1,10):
             num = f"{num}"
             #print(num)
-            if self.check_row_for_num(num,row,col) and self.check_col_for_num(num,row,col) and self.check_square_for_num(num,row,col):
+            if count > 1:
+                return 2
+            if self.check_all(num, row, col):
                 self.table[row][col] = num
             
                 result = self.check_how_many_solutions(count)
@@ -169,7 +188,13 @@ class Sudoku:
             
                 self.table[row][col] = 'X'
         return count
-    
-#sud = Sudoku()
-#print(sud.table)
-#print(sud.generate_single_solutional_final(30))
+
+    def generate_single_solutional_final(self, how_many_remain):
+        if how_many_remain>=30:
+            while True:
+                self.generate_filled()
+                self.fill_removal(how_many_remain)
+                if self.check_how_many_solutions(0) == 1:
+                    return self
+                self.table = [["X" for i in range(9)] for j in range(9)]
+        return "I cannot generate single solutional sudoku with that few numbers"
