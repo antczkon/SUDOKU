@@ -293,7 +293,7 @@ class TestSudokuTask(unittest.TestCase):
         self.assertEqual(expected_X,exes)
 
 
-    def test_wheather_after_filling_three_unconnected_squares_other_remain_unfilled(self):
+    def test_whether_after_filling_three_unconnected_squares_other_remain_unfilled(self):
         filled = main.FilledGenerator()
         filled.fill_unconnected_squares()
         result = filled.table
@@ -304,7 +304,7 @@ class TestSudokuTask(unittest.TestCase):
                 if not ((i in indexes[0] and j in indexes[0]) or (i in indexes[1] and j in indexes[1]) or (i in indexes[2] and j in indexes[2])):
                     self.assertEqual(expeceted,result[i][j])
 
-    def test_wheather_three_squares_are_filled(self):
+    def test_whether_three_squares_are_filled(self):
         filled = main.FilledGenerator()
         filled.fill_unconnected_squares()
         result = filled.table
@@ -315,7 +315,7 @@ class TestSudokuTask(unittest.TestCase):
                 if (i in indexes[0] and j in indexes[0]) or (i in indexes[1] and j in indexes[1]) or (i in indexes[2] and j in indexes[2]):
                     self.assertIn(result[i][j],expeceted)
 
-    def test_wheather_generated_sudoku_is_complitelly_filled(self):
+    def test_whether_generated_sudoku_is_complitelly_filled(self):
         filled = main.FilledGenerator()
         filled.generate_filled()
         result = filled.table
@@ -380,7 +380,7 @@ class TestSudokuTask(unittest.TestCase):
 
 
 
-    def test_wheather_generating_single_solutional_final_returns_sudoku_if_creates_one(self):
+    def test_whether_generating_single_solutional_final_returns_sudoku_if_creates_one(self):
         inp_how_many_remain = 80
         sudoku = main.SudokuGenerator()
         result = str(sudoku.generate_single_solutional_final(inp_how_many_remain))
@@ -419,7 +419,7 @@ class TestSudokuTask(unittest.TestCase):
                 self.assertIn(result[i],digits)
 
 
-    def test_wheather_generating_single_soulutional_final_returns_message_if_fails_to_generate(self):
+    def test_whether_generating_single_soulutional_final_returns_message_if_fails_to_generate(self):
         inp_how_many_remain = 10
         sudoku = main.SudokuGenerator()
         result = sudoku.generate_single_solutional_final(inp_how_many_remain)

@@ -28,20 +28,20 @@ class Sudoku:
         return to_print
 
 
-    def check_row_for_num(self, num, x, _):
+    def check_row_for_num(self, num, x, _) -> bool:
         row = self.table[x]
         for i in range(9):
             if row[i] == num:
                 return False
         return True
     
-    def check_col_for_num(self, num, _, y):
+    def check_col_for_num(self, num, _, y) -> bool:
         for i in range(9):
             if self.table[i][y] == num:
                 return False
         return True
     
-    def check_square_for_num(self, num, x, y):
+    def check_square_for_num(self, num, x, y) -> bool:
         begin_row = (x//3)*3
         begin_col = (y//3)*3
         for i in range (begin_row,begin_row+3):
@@ -50,7 +50,7 @@ class Sudoku:
                     return False
         return True
     
-    def find_unfilled_pos(self):
+    def find_unfilled_pos(self) -> list:
 
         tab=[]
         for i in range (9):
@@ -59,7 +59,7 @@ class Sudoku:
                     tab.append([i,j])
         return tab
 
-    def check_all(self,num,x,y):
+    def check_all(self,num,x,y) -> bool:
         if self.check_col_for_num(num,x,y) and self.check_row_for_num(num,x,y) and self.check_square_for_num(num,x,y):
             return True
         return False
@@ -70,7 +70,7 @@ class Solver:
         self.sudoku_to_solve = sudoku_to_solve
 
 
-    def solve(self):
+    def solve(self) -> bool or Sudoku:
 
         unfilled = self.sudoku_to_solve.find_unfilled_pos()
         if unfilled == []:
@@ -95,7 +95,7 @@ class FilledGenerator(Sudoku):
         self.table = [["X" for i in range(9)] for j in range(9)]
     
     
-    def fill_unconnected_squares(self):
+    def fill_unconnected_squares(self) -> None:
 
         pos = self.find_unfilled_pos()
         if len(pos) != 81:
@@ -121,7 +121,7 @@ class FilledGenerator(Sudoku):
                     self.table[i][j] = chosen
 
 
-    def generate_filled(self):
+    def generate_filled(self) -> None:
 
         self.fill_unconnected_squares()
         unfilled_positions = self.find_unfilled_pos()
@@ -149,7 +149,6 @@ class SudokuGenerator(FilledGenerator):
     
     def fill_removal(self, how_many_remain):
 
-        self.generate_filled()
         positions= [(i,j) for i in range(9) for j in range(9)]
 
         while len(positions) != how_many_remain:
@@ -196,3 +195,5 @@ class SudokuGenerator(FilledGenerator):
                     return self
                 self.table = [["X" for i in range(9)] for j in range(9)]
         return "I cannot generate single solutional sudoku with that few numbers"
+
+
