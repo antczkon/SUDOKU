@@ -2,7 +2,150 @@ import main
 import unittest
 import time
 
-class TestDictDates(unittest.TestCase):
+class TestSudokuTask(unittest.TestCase):
+    TAB0 = [['X', '1', 'X', 'X', '2', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+
+    TABE = [['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+    
+    TAB1 = [['9', '7', 'X', 'X', '2', '1', 'X', 'X', '8'],
+            ['X', '2', '5', '4', '6', '8', 'X', '9', 'X'],
+            ['X', 'X', 'X', 'X', '7', '9', 'X', 'X', '4'],
+            ['5', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '1'],
+            ['X', '4', '9', 'X', 'X', 'X', 'X', 'X', '6'],
+            ['6', '1', 'X', 'X', 'X', 'X', 'X', '4', 'X'],
+            ['X', 'X', 'X', '9', '5', 'X', '7', 'X', 'X'],
+            ['X', '5', '1', 'X', 'X', 'X', 'X', '8', 'X'],
+            ['X', 'X', '3', 'X', 'X', '6', 'X', 'X', 'X']]
+    
+    TAB2 = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['2', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+
+    TAB3 = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+
+    TAB4 = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
+            ['X', '2', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+
+    TAB5 = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['4', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+
+    TAB6 = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
+            ['X', '6', '8', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+
+    TAB7 = TAB6
+
+    TAB8 = TAB6
+
+    TAB9 = [['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9']]
+
+    TAB10 = [['6', '3', '7', '4', '1', '5', '2', '8', '9'],
+             ['4', '1', '8', '2', '3', '9', '6', '5', '7'],
+             ['2', '5', '9', '7', '6', '8', '3', '1', '4'],
+             ['1', '2', '5', '9', '8', '3', '4', '7', '6'],
+             ['8', '4', '6', '5', '7', '2', '9', '3', '1'],
+             ['7', '9', '3', '6', '4', '1', '8', '2', '5'],
+             ['3', '7', '1', '8', '9', '4', '5', '6', '2'],
+             ['5', '8', '4', '1', '2', '6', '7', '9', '3'],
+             ['9', '6', '2', '3', '5', '7', '1', '4', '8']]
+
+    TAB11 = [['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+             ['7', '8', '9', '1', '2', '3', '4', '5', '6'],
+             ['4', '5', '6', '7', '8', '9', '1', '2', '3'],
+             ['9', '1', '2', '3', '4', '5', '6', '7', '8'],
+             ['6', '7', '8', '9', '1', '2', '3', '4', '5'],
+             ['3', '4', '5', '6', '7', '8', '9', '1', '2'],
+             ['2', '3', '1', '5', '6', '4', 'X', '7', 'X'],
+             ['X', '6', '4', '8', 'X', 'X', 'X', 'X', 'X'],
+             ['X', '9', '7', '2', 'X', 'X', '8', 'X', 'X']]
+
+    TAB12 = [['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', '4', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+             ['X', 'X', '1', 'X', 'X', 'X', 'X', 'X', 'X']]
+
+    TAB13 = [['7', '4', '3', '8', '1', '2', '5', '9', '6'],
+             ['2', '1', '5', '9', '3', '6', '4', '8', '7'],
+             ['8', '9', '6', '7', '5', '4', '1', '2', '3'],
+             ['1', '3', '7', '4', '2', '8', '9', '6', '5'],
+             ['4', '6', '2', '3', '9', '5', '8', '7', '1'],
+             ['9', '5', '8', '6', '7', '1', '3', '4', '2'],
+             ['5', '8', 'X', '2', '6', '9', '7', '3', '4'],
+             ['6', '7', '4', '5', '8', '3', '2', '1', '9'],
+             ['3', '2', '9', '1', '4', '7', '6', '5', '8']]
+
+    TAB14 = [['X', '8', 'X', 'X', '1', 'X', '5', '7', '9'],
+             ['3', '1', '9', '5', '4', '7', '2', 'X', '8'],
+             ['7', '5', '2', '6', 'X', '8', 'X', 'X', '1'],
+             ['2', '9', '8', '1', '7', '5', '6', '4', '3'],
+             ['1', '3', '5', '4', 'X', '2', '8', '9', '7'],
+             ['X', 'X', '4', '8', 'X', '9', '1', '2', 'X'],
+             ['X', '6', '3', 'X', '2', '1', '7', 'X', '4'],
+             ['5', 'X', '7', 'X', '8', 'X', '9', '1', '6'],
+             ['9', '4', '1', '7', '5', '6', 'X', '8', 'X']]
 
     def test_is_there_a_sudoku_with_correct_lengths(self):
         sudoku = main.Sudoku.for_empty()
@@ -51,15 +194,7 @@ class TestDictDates(unittest.TestCase):
             else:
                 self.assertIn(result_sudoku_table[i],digits)
     def test_checking_row_for_number_given_num_and_position_returns_False(self):
-        inp_board = [['X', '1', 'X', 'X', '2', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB0
         inp_num = '2'
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
@@ -68,15 +203,7 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(expected,result)
 
     def test_checking_row_for_number__given_num_and_position_returns_True(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB3
         inp_num = '2'
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
@@ -85,15 +212,7 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(expected,result)
 
     def test_checking_column_for_number_given_num_and_position_returns_False(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['2', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB2
         inp_num = '2'
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
@@ -102,15 +221,7 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(expected,result)
 
     def test_checking_column_for_number_given_num_and_position_returns_True(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['4', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB5
         inp_num = '2'
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
@@ -119,15 +230,7 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(expected,result)
 
     def test_checking_square_for_number_given_num_and_position_returns_False(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
-                     ['X', '2', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB4
         inp_num = '2'
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
@@ -136,15 +239,7 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(expected,result)
 
     def test_checking_square_for_number__given_num_and_position_returns_True(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
-                     ['X', '6', '8', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB6
         inp_num = '2'
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
@@ -153,75 +248,35 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(expected,result)
 
     def test_finding_unfilled_positions_retruns_all_X_positions_t(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
-                     ['X', '6', '8', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB7
         sudoku = main.Sudoku(inp_board)
         expected = [8,7]
         result = sudoku.find_unfilled_pos()
         self.assertIn(expected,result)
 
     def test_finding_unfilled_positions_retruns_all_X_positions_f(self):
-        inp_board = [['X', '1', 'X', 'X', '3', 'X', 'X', 'X', 'X'],
-                     ['X', '6', '8', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['7', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB8
         sudoku = main.Sudoku(inp_board)
         expected = [1,2]
         result = sudoku.find_unfilled_pos()
         self.assertNotIn(expected,result)
 
     def test_solver_given_filled_board_returns_True(self):
-        inp_board = [['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['1', '2', '3', '4', '5', '6', '7', '8', '9']]
+        inp_board = self.TAB9
         solver = main.Solver(main.Sudoku(inp_board))
         expected = True
         result = solver.solve()
         self.assertEqual(expected,result)
     
     def test_solver_given_unfillable_board_retruns_False(self):
-        inp_board = [['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                     ['7', '8', '9', '1', '2', '3', '4', '5', '6'],
-                     ['4', '5', '6', '7', '8', '9', '1', '2', '3'],
-                     ['9', '1', '2', '3', '4', '5', '6', '7', '8'],
-                     ['6', '7', '8', '9', '1', '2', '3', '4', '5'],
-                     ['3', '4', '5', '6', '7', '8', '9', '1', '2'],
-                     ['2', '3', '1', '5', '6', '4', 'X', '7', 'X'],
-                     ['X', '6', '4', '8', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', '9', '7', '2', 'X', 'X', '8', 'X', 'X']]
+        inp_board = self.TAB11
         solver = main.Solver(main.Sudoku(inp_board))
         expected = False
         result = solver.solve()
         self.assertEqual(expected,result)
 
     def test_solver_given_fillable_board_retruns_filled_board(self):
-        inp_board = [['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', '4', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', '1', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_board = self.TAB12
         solver = main.Solver(main.Sudoku(inp_board))
         expected_X = 0
         exes=0
@@ -271,15 +326,7 @@ class TestDictDates(unittest.TestCase):
 
     def test_whether_sudoku_fill_remover_removes_correct_number_of_positions(self):
         inp_how_many_remain = 10
-        inp_board = [['6', '3', '7', '4', '1', '5', '2', '8', '9'],
-                     ['4', '1', '8', '2', '3', '9', '6', '5', '7'],
-                     ['2', '5', '9', '7', '6', '8', '3', '1', '4'],
-                     ['1', '2', '5', '9', '8', '3', '4', '7', '6'],
-                     ['8', '4', '6', '5', '7', '2', '9', '3', '1'],
-                     ['7', '9', '3', '6', '4', '1', '8', '2', '5'],
-                     ['3', '7', '1', '8', '9', '4', '5', '6', '2'],
-                     ['5', '8', '4', '1', '2', '6', '7', '9', '3'],
-                     ['9', '6', '2', '3', '5', '7', '1', '4', '8']]
+        inp_board = self.TAB10
         sudoku = main.SudokuGenerator()
         sudoku.table = inp_board
         sudoku.fill_removal(inp_how_many_remain)
@@ -294,15 +341,7 @@ class TestDictDates(unittest.TestCase):
 
 
     def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one(self):
-        inp_table = [['7', '4', '3', '8', '1', '2', '5', '9', '6'],
-                     ['2', '1', '5', '9', '3', '6', '4', '8', '7'],
-                     ['8', '9', '6', '7', '5', '4', '1', '2', '3'],
-                     ['1', '3', '7', '4', '2', '8', '9', '6', '5'],
-                     ['4', '6', '2', '3', '9', '5', '8', '7', '1'],
-                     ['9', '5', '8', '6', '7', '1', '3', '4', '2'],
-                     ['5', '8', 'X', '2', '6', '9', '7', '3', '4'],
-                     ['6', '7', '4', '5', '8', '3', '2', '1', '9'],
-                     ['3', '2', '9', '1', '4', '7', '6', '5', '8']]
+        inp_table = self.TAB13
         sudoku = main.SudokuGenerator()
         sudoku.table = inp_table
         result = sudoku.check_how_many_solutions(0)
@@ -310,15 +349,7 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(result,expected)
 
     def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one_2(self):
-        inp_table = [['X', '8', 'X', 'X', '1', 'X', '5', '7', '9'],
-                     ['3', '1', '9', '5', '4', '7', '2', 'X', '8'],
-                     ['7', '5', '2', '6', 'X', '8', 'X', 'X', '1'],
-                     ['2', '9', '8', '1', '7', '5', '6', '4', '3'],
-                     ['1', '3', '5', '4', 'X', '2', '8', '9', '7'],
-                     ['X', 'X', '4', '8', 'X', '9', '1', '2', 'X'],
-                     ['X', '6', '3', 'X', '2', '1', '7', 'X', '4'],
-                     ['5', 'X', '7', 'X', '8', 'X', '9', '1', '6'],
-                     ['9', '4', '1', '7', '5', '6', 'X', '8', 'X']]
+        inp_table = self.TAB14
         sudoku = main.SudokuGenerator()
         sudoku.table = inp_table
         result = sudoku.check_how_many_solutions(0)
@@ -326,15 +357,7 @@ class TestDictDates(unittest.TestCase):
         self.assertEqual(result,expected)
 
     def test_checking_how_many_solutions_given_sudoku_with_more_than_one_solution_returns_more_than_one(self):
-        inp_table = [['9', '7', 'X', 'X', '2', '1', 'X', 'X', '8'],
-                     ['X', '2', '5', '4', '6', '8', 'X', '9', 'X'],
-                     ['X', 'X', 'X', 'X', '7', '9', 'X', 'X', '4'],
-                     ['5', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '1'],
-                     ['X', '4', '9', 'X', 'X', 'X', 'X', 'X', '6'],
-                     ['6', '1', 'X', 'X', 'X', 'X', 'X', '4', 'X'],
-                     ['X', 'X', 'X', '9', '5', 'X', '7', 'X', 'X'],
-                     ['X', '5', '1', 'X', 'X', 'X', 'X', '8', 'X'],
-                     ['X', 'X', '3', 'X', 'X', '6', 'X', 'X', 'X']]
+        inp_table = self.TAB1
         sudoku = main.SudokuGenerator()
         sudoku.table = inp_table
         result = sudoku.check_how_many_solutions(0)
@@ -343,15 +366,7 @@ class TestDictDates(unittest.TestCase):
 
     def test_checking_how_many_solutions_given_empty_sudoku_returns_more_than_one_in_resonable_time(self):
         start = time.time()
-        inp_table = [['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-                     ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']]
+        inp_table = self.TABE
         sudoku = main.SudokuGenerator()
         sudoku.table = inp_table
         result = sudoku.check_how_many_solutions(0)
@@ -375,7 +390,7 @@ class TestDictDates(unittest.TestCase):
         wall_2 = '-'
         space = ' '
         divider = '\n'
-        
+
         tab_wall_1 = []
         for k in range (3):
             for j in range(3):
