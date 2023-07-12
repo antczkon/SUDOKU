@@ -28,14 +28,14 @@ class Sudoku:
         return to_print
 
 
-    def check_row_for_num(self, num, x, y):
+    def check_row_for_num(self, num, x, _):
         row = self.table[x]
         for i in range(9):
             if row[i] == num:
                 return False
         return True
     
-    def check_col_for_num(self, num, x, y):
+    def check_col_for_num(self, num, _, y):
         for i in range(9):
             if self.table[i][y] == num:
                 return False
@@ -51,6 +51,7 @@ class Sudoku:
         return True
     
     def find_unfilled_pos(self):
+
         tab=[]
         for i in range (9):
             for j in range (9):
@@ -64,34 +65,38 @@ class Sudoku:
         return False
 
 
-class Solver(Sudoku):
-    def __init__(self, table):
-        super().__init__(table)
-    
+class Solver:
+    def __init__(self, sudoku_to_solve: Sudoku):
+        self.sudoku_to_solve = sudoku_to_solve
+
+
     def solve(self):
-        unfilled = self.find_unfilled_pos()
+
+        unfilled = self.sudoku_to_solve.find_unfilled_pos()
         if unfilled == []:
             return True
         row,col = unfilled[0][0],unfilled[0][1]
         for num in range (1,10):
             num = f"{num}"
-            if self.check_all(num,row,col):
-                self.table[row][col] = num
+            if self.sudoku_to_solve.check_all(num,row,col):
+                self.sudoku_to_solve.table[row][col] = num
             
                 if self.solve():
-                    return self.table
+                    return self.sudoku_to_solve
             
-                self.table[row][col] = 'X'
+                self.sudoku_to_solve.table[row][col] = 'X'
         
         return False
     
 
-class Filled_generator(Sudoku):
+class FilledGenerator(Sudoku):
+    
     def __init__(self):
         self.table = [["X" for i in range(9)] for j in range(9)]
     
     
     def fill_unconnected_squares(self):
+
         pos = self.find_unfilled_pos()
         if len(pos) != 81:
             return False
@@ -117,6 +122,7 @@ class Filled_generator(Sudoku):
 
 
     def generate_filled(self):
+
         self.fill_unconnected_squares()
         unfilled_positions = self.find_unfilled_pos()
         for position in unfilled_positions:
@@ -127,7 +133,7 @@ class Filled_generator(Sudoku):
                     temp = copy.deepcopy(self.table)
                     self.table[position[0]][position[1]] = chosen
                     board_to_be_checked_by_solver = copy.deepcopy(self.table)
-                    checking_by_solver = Solver(board_to_be_checked_by_solver).solve()
+                    checking_by_solver = Solver(Sudoku(board_to_be_checked_by_solver)).solve()
                     if checking_by_solver != False:
                         self.table = temp
                         self.table[position[0]][position[1]] = chosen
@@ -139,21 +145,13 @@ class Filled_generator(Sudoku):
                     digits.remove(chosen)
 
 
-class Sudoku_generator(Filled_generator):
-
-    def __init__(self):
-        a = Filled_generator()
-        a.generate_filled()
-        self.table = a.table
-    
-    def __str__(self):
-        return super().__str__()
+class SudokuGenerator(FilledGenerator):
     
     def fill_removal(self, how_many_remain):
-        positions= []
-        for i in range (9):
-            for j in range (9):
-                positions.append([i,j])
+
+        self.generate_filled()
+        positions= [(i,j) for i in range(9) for j in range(9)]
+
         while len(positions) != how_many_remain:
             chosen = random.choice(positions)
             self.table[chosen[0]][chosen[1]] = "X"
@@ -168,7 +166,6 @@ class Sudoku_generator(Filled_generator):
         row,col = unfilled[0][0],unfilled[0][1]
         for num in range (1,10):
             num = f"{num}"
-            #print(num)
             if count > 1:
                 return 2
             if self.check_all(num, row, col):
@@ -190,6 +187,7 @@ class Sudoku_generator(Filled_generator):
         return count
 
     def generate_single_solutional_final(self, how_many_remain):
+
         if how_many_remain>=30:
             while True:
                 self.generate_filled()
