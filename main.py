@@ -9,7 +9,7 @@ class Sudoku:
         self.table = table
 
     @classmethod
-    def for_empty(cls):
+    def create_empty(cls):
         return cls(table = [["X" for i in range(9)] for j in range(9)])
     
     def __str__(self):
@@ -147,7 +147,7 @@ class Solver:
 class SudokuGenerator():
 
     def __init__(self):
-        self.sudoku_to_mask = Sudoku.for_empty()
+        self.sudoku_to_mask = Sudoku.create_empty()
     
     def remove_fill(self, how_many_remain):
 

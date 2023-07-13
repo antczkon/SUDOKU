@@ -144,7 +144,7 @@ class TestSudokuTask(unittest.TestCase):
              ['9', '4', '1', '7', '5', '6', 'X', '8', 'X']]
 
     def test_is_there_a_sudoku_with_correct_lengths(self):
-        sudoku = main.Sudoku.for_empty()
+        sudoku = main.Sudoku.create_empty()
         result_sudoku_table = sudoku.table
 
         self.assertEqual(9,len(result_sudoku_table))
@@ -154,7 +154,7 @@ class TestSudokuTask(unittest.TestCase):
                 self.assertEqual(1,len(result_sudoku_table[i][j]))
 
     def test_showing_the_board_correctly(self):
-        result_sudoku_table = str(main.Sudoku.for_empty())
+        result_sudoku_table = str(main.Sudoku.create_empty())
         digits = "X123456789"
         wall_1 = '|'
         wall_2 = '-'
@@ -257,7 +257,7 @@ class TestSudokuTask(unittest.TestCase):
 
 
     def test_whether_after_filling_three_unconnected_squares_other_remain_unfilled(self):
-        filled = main.Sudoku.for_empty()
+        filled = main.Sudoku.create_empty()
         filled.fill_unconnected_squares()
         result = filled.table
         expeceted = "X"
@@ -270,7 +270,7 @@ class TestSudokuTask(unittest.TestCase):
                     self.assertEqual(expeceted,result[i][j])
 
     def test_whether_after_filling_three_unconnected_squares_three_squares_are_filled(self):
-        filled = main.Sudoku.for_empty()
+        filled = main.Sudoku.create_empty()
         filled.fill_unconnected_squares()
         result = filled.table
         expeceted = '123456789'
@@ -283,13 +283,13 @@ class TestSudokuTask(unittest.TestCase):
                     self.assertIn(result[i][j],expeceted)
 
     def test_whether_generated_filled_sudoku_is_complitelly_filled(self):
-        filled = main.Sudoku.for_empty()
+        filled = main.Sudoku.create_empty()
         filled.generate_filled()
         result = filled.table
-        not_expected = 'X'    
+        expeceted = '123456789'    
         for i in range(9):
             for j in range (9):
-                self.assertNotEqual(result[i][j],not_expected)
+                self.assertIn(result[i][j],expeceted)
 
     def test_whether_sudoku_fill_remover_removes_correct_number_of_positions(self):
         sudoku = main.SudokuGenerator()
