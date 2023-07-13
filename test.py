@@ -333,35 +333,35 @@ class TestSudokuTask(unittest.TestCase):
         self.assertEqual(expected,count_remaining)
 
 
-    def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one(self):
+    def test_search_for_solutions_given_sudoku_with_unique_solution_returns_one(self):
         inp_table = self.TAB13
         sudoku = main.SudokuGenerator()
         sudoku.sudoku_to_mask.table = inp_table
-        result = sudoku.check_how_many_solutions(0)
+        result = sudoku.search_for_solutions()
         expected = 1
         self.assertEqual(result,expected)
 
-    def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one_second_time(self):
+    def test_search_for_solutions_given_sudoku_with_unique_solution_returns_one_second_time(self):
         inp_table = self.TAB14
         sudoku = main.SudokuGenerator()
         sudoku.sudoku_to_mask.table = inp_table
-        result = sudoku.check_how_many_solutions(0)
+        result = sudoku.search_for_solutions()
         expected = 1
         self.assertEqual(result,expected)
 
-    def test_checking_how_many_solutions_given_sudoku_with_more_than_one_solution_returns_more_than_one(self):
+    def test_search_for_solutions_given_sudoku_with_more_than_one_solution_returns_more_than_one(self):
         inp_table = self.TAB1
         sudoku = main.SudokuGenerator()
         sudoku.sudoku_to_mask.table = inp_table
-        result = sudoku.check_how_many_solutions(0)
+        result = sudoku.search_for_solutions()
         expected = 1
         self.assertGreater(result,expected)
 
-    def test_checking_how_many_solutions_given_empty_sudoku_returns_more_than_one(self):
+    def test_search_for_solutions_given_empty_sudoku_returns_more_than_one(self):
         inp_table = self.TABE
         sudoku = main.SudokuGenerator()
         sudoku.sudoku_to_mask.table = inp_table
-        result = sudoku.check_how_many_solutions(0)
+        result = sudoku.search_for_solutions()
         expected = 1
         self.assertGreater(result,expected)
 
