@@ -75,24 +75,22 @@ class Sudoku:
         digits1 = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
         digits2 = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
         digits3 = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-        indexes = [[0,1,2],[3,4,5],[6,7,8]]
+        indexes =[]
+        for k in range (3):
+            indexes.append([(i,j) for i in range (0+k*3,3+k*3) for j in range (0+k*3,3+k*3)])
         
         for i in range (9):
-            for j in range(9):
-                if i in indexes[0] and j in indexes[0]:
-                    chosen = random.choice(digits1)
-                    digits1.remove(chosen)
-                    self.table[i][j] = chosen
+            chosen = random.choice(digits1)
+            digits1.remove(chosen)
+            self.table[indexes[0][i][0]][indexes[0][i][1]] = chosen
 
-                elif i in indexes[1] and j in indexes[1]:
-                    chosen = random.choice(digits2)
-                    digits2.remove(chosen)
-                    self.table[i][j] = chosen
+            chosen = random.choice(digits2)
+            digits2.remove(chosen)
+            self.table[indexes[1][i][0]][indexes[1][i][1]] = chosen
 
-                elif i in indexes[2] and j in indexes[2]:
-                    chosen = random.choice(digits3)
-                    digits3.remove(chosen)
-                    self.table[i][j] = chosen
+            chosen = random.choice(digits3)
+            digits3.remove(chosen)
+            self.table[indexes[2][i][0]][indexes[2][i][1]] = chosen
 
 
     def generate_filled(self):
@@ -209,3 +207,4 @@ class SudokuGenerator():
                 if now - start > 90:
                     break
         return "I cannot generate single solutional sudoku with that few numbers in risonable time"
+
