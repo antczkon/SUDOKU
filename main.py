@@ -160,7 +160,7 @@ class SudokuGenerator():
     
     def search_for_solutions(self, count=0):
         "This function has to receive count as 0 to work properly"
-        "This function retruns 2 or more if there is no unique solution to Sudoku and 1 if there is one"
+        "This function retruns 2 if there is no unique solution to Sudoku and 1 if there is one"
         unfilled = self.sudoku_to_mask.find_unfilled_positions()
         if unfilled == []:
             count = count+1
@@ -207,6 +207,6 @@ class SudokuGenerator():
 
                 if now - start > 90:
                     break
-        return "I cannot generate single solutional sudoku with that few numbers in risonable time"
+        return "I cannot generate single solutional sudoku with that few numbers in reasonable time"
 
 

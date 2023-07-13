@@ -377,5 +377,5 @@ class TestSudokuTask(unittest.TestCase):
     def test_whether_generating_single_soulutional_sudoku_returns_message_if_fails_to_generate(self):
         sudoku = main.SudokuGenerator()
         result = sudoku.generate_single_solutional_sudoku(10)
-        expected = "I cannot generate single solutional sudoku with that few numbers in risonable time"
+        expected = "I cannot generate single solutional sudoku with that few numbers in reasonable time"
         self.assertEqual(expected, result)
