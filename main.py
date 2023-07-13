@@ -1,6 +1,6 @@
 import random
 import copy
-
+import time
 
 class Sudoku:
     def __init__(self, table):
@@ -64,38 +64,7 @@ class Sudoku:
             return True
         return False
 
-
-class Solver:
-    def __init__(self, sudoku_to_solve: Sudoku):
-        self.sudoku_to_solve = sudoku_to_solve
-
-
-    def solve(self) -> bool or Sudoku:
-
-        unfilled = self.sudoku_to_solve.find_unfilled_pos()
-        if unfilled == []:
-            return True
-        row,col = unfilled[0][0],unfilled[0][1]
-        for num in range (1,10):
-            num = f"{num}"
-            if self.sudoku_to_solve.check_all(num,row,col):
-                self.sudoku_to_solve.table[row][col] = num
-            
-                if self.solve():
-                    return self.sudoku_to_solve
-            
-                self.sudoku_to_solve.table[row][col] = 'X'
-        
-        return False
-    
-
-class FilledGenerator(Sudoku):
-    
-    def __init__(self):
-        self.table = [["X" for i in range(9)] for j in range(9)]
-    
-    
-    def fill_unconnected_squares(self) -> None:
+    def fill_unconnected_squares(self):
 
         pos = self.find_unfilled_pos()
         if len(pos) != 81:
@@ -121,7 +90,7 @@ class FilledGenerator(Sudoku):
                     self.table[i][j] = chosen
 
 
-    def generate_filled(self) -> None:
+    def generate_filled(self):
 
         self.fill_unconnected_squares()
         unfilled_positions = self.find_unfilled_pos()
@@ -144,8 +113,35 @@ class FilledGenerator(Sudoku):
                 else:
                     digits.remove(chosen)
 
+class Solver:
+    def __init__(self, sudoku_to_solve: Sudoku):
+        self.sudoku_to_solve = sudoku_to_solve
 
-class SudokuGenerator(FilledGenerator):
+
+    def solve(self) -> bool or Sudoku:
+
+        unfilled = self.sudoku_to_solve.find_unfilled_pos()
+        if unfilled == []:
+            return True
+        row,col = unfilled[0][0],unfilled[0][1]
+        for num in range (1,10):
+            num = f"{num}"
+            if self.sudoku_to_solve.check_all(num,row,col):
+                self.sudoku_to_solve.table[row][col] = num
+            
+                if self.solve():
+                    return self.sudoku_to_solve
+            
+                self.sudoku_to_solve.table[row][col] = 'X'
+        
+        return False
+
+
+
+class SudokuGenerator():
+
+    def __init__(self):
+        self.sudoku_to_mask = Sudoku.for_empty()
     
     def fill_removal(self, how_many_remain):
 
@@ -153,12 +149,12 @@ class SudokuGenerator(FilledGenerator):
 
         while len(positions) != how_many_remain:
             chosen = random.choice(positions)
-            self.table[chosen[0]][chosen[1]] = "X"
+            self.sudoku_to_mask.table[chosen[0]][chosen[1]] = "X"
             positions.remove(chosen)
     
     def check_how_many_solutions(self, count):
 
-        unfilled = self.find_unfilled_pos()
+        unfilled = self.sudoku_to_mask.find_unfilled_pos()
         if unfilled == []:
             count = count+1
             return True
@@ -167,11 +163,11 @@ class SudokuGenerator(FilledGenerator):
             num = f"{num}"
             if count > 1:
                 return 2
-            if self.check_all(num, row, col):
-                self.table[row][col] = num
+            if self.sudoku_to_mask.check_all(num, row, col):
+                self.sudoku_to_mask.table[row][col] = num
             
                 result = self.check_how_many_solutions(count)
-                if type(result) == type(2):
+                if type(result) == int:
                     if result > count:
                         count = result
                         if count > 1:
@@ -182,18 +178,25 @@ class SudokuGenerator(FilledGenerator):
                     if count > 1:
                         return 2
             
-                self.table[row][col] = 'X'
+                self.sudoku_to_mask.table[row][col] = 'X'
         return count
+
 
     def generate_single_solutional_final(self, how_many_remain):
 
         if how_many_remain>=30:
+            start = time.time()
+            self.sudoku_to_mask.table = [["X" for i in range(9)] for j in range(9)]
             while True:
-                self.generate_filled()
+                self.sudoku_to_mask.generate_filled()
                 self.fill_removal(how_many_remain)
                 if self.check_how_many_solutions(0) == 1:
-                    return self
-                self.table = [["X" for i in range(9)] for j in range(9)]
-        return "I cannot generate single solutional sudoku with that few numbers"
+                    return self.sudoku_to_mask
+                self.sudoku_to_mask.table = [["X" for i in range(9)] for j in range(9)]
+                now = time.time()
+                print(now)
+                if now - start > 90:
+                    break
+        return "I cannot generate single solutional sudoku with that few numbers in risonable time"
 
 

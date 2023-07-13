@@ -193,14 +193,14 @@ class TestSudokuTask(unittest.TestCase):
                 self.assertEqual(result_sudoku_table[i],space)
             else:
                 self.assertIn(result_sudoku_table[i],digits)
+
     def test_checking_row_for_number_given_num_and_position_returns_False(self):
         inp_board = self.TAB0
         inp_num = '2'
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
         result = sudoku.check_row_for_num(inp_num,inp_pos_x,inp_pos_y)
-        expected = False
-        self.assertEqual(expected,result)
+        self.assertFalse(result)
 
     def test_checking_row_for_number__given_num_and_position_returns_True(self):
         inp_board = self.TAB3
@@ -208,8 +208,7 @@ class TestSudokuTask(unittest.TestCase):
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
         result = sudoku.check_row_for_num(inp_num,inp_pos_x,inp_pos_y)
-        expected = True
-        self.assertEqual(expected,result)
+        self.assertTrue(result)
 
     def test_checking_column_for_number_given_num_and_position_returns_False(self):
         inp_board = self.TAB2
@@ -217,8 +216,7 @@ class TestSudokuTask(unittest.TestCase):
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
         result = sudoku.check_col_for_num(inp_num,inp_pos_x,inp_pos_y)
-        expected = False
-        self.assertEqual(expected,result)
+        self.assertFalse(result)
 
     def test_checking_column_for_number_given_num_and_position_returns_True(self):
         inp_board = self.TAB5
@@ -226,8 +224,7 @@ class TestSudokuTask(unittest.TestCase):
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
         result = sudoku.check_col_for_num(inp_num,inp_pos_x,inp_pos_y)
-        expected = True
-        self.assertEqual(expected,result)
+        self.assertTrue(result)
 
     def test_checking_square_for_number_given_num_and_position_returns_False(self):
         inp_board = self.TAB4
@@ -235,8 +232,7 @@ class TestSudokuTask(unittest.TestCase):
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
         result = sudoku.check_square_for_num(inp_num,inp_pos_x,inp_pos_y)
-        expected = False
-        self.assertEqual(expected,result)
+        self.assertFalse(result)
 
     def test_checking_square_for_number__given_num_and_position_returns_True(self):
         inp_board = self.TAB6
@@ -244,8 +240,7 @@ class TestSudokuTask(unittest.TestCase):
         inp_pos_x, inp_pos_y = 0,0
         sudoku = main.Sudoku(inp_board)
         result = sudoku.check_square_for_num(inp_num,inp_pos_x,inp_pos_y)
-        expected = True
-        self.assertEqual(expected,result)
+        self.assertTrue(result)
 
     def test_finding_unfilled_positions_retruns_all_X_positions_t(self):
         inp_board = self.TAB7
@@ -264,16 +259,14 @@ class TestSudokuTask(unittest.TestCase):
     def test_solver_given_filled_board_returns_True(self):
         inp_board = self.TAB9
         solver = main.Solver(main.Sudoku(inp_board))
-        expected = True
         result = solver.solve()
-        self.assertEqual(expected,result)
+        self.assertTrue(result)
     
     def test_solver_given_unfillable_board_retruns_False(self):
         inp_board = self.TAB11
         solver = main.Solver(main.Sudoku(inp_board))
-        expected = False
         result = solver.solve()
-        self.assertEqual(expected,result)
+        self.assertFalse(result)
 
     def test_solver_given_fillable_board_retruns_filled_board(self):
         inp_board = self.TAB12
@@ -294,7 +287,7 @@ class TestSudokuTask(unittest.TestCase):
 
 
     def test_whether_after_filling_three_unconnected_squares_other_remain_unfilled(self):
-        filled = main.FilledGenerator()
+        filled = main.Sudoku.for_empty()
         filled.fill_unconnected_squares()
         result = filled.table
         expeceted = "X"
@@ -305,7 +298,7 @@ class TestSudokuTask(unittest.TestCase):
                     self.assertEqual(expeceted,result[i][j])
 
     def test_whether_three_squares_are_filled(self):
-        filled = main.FilledGenerator()
+        filled = main.Sudoku.for_empty()
         filled.fill_unconnected_squares()
         result = filled.table
         expeceted = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -316,7 +309,7 @@ class TestSudokuTask(unittest.TestCase):
                     self.assertIn(result[i][j],expeceted)
 
     def test_whether_generated_sudoku_is_complitelly_filled(self):
-        filled = main.FilledGenerator()
+        filled = main.Sudoku.for_empty()
         filled.generate_filled()
         result = filled.table
         not_expected = 'X'    
@@ -328,9 +321,9 @@ class TestSudokuTask(unittest.TestCase):
         inp_how_many_remain = 10
         inp_board = self.TAB10
         sudoku = main.SudokuGenerator()
-        sudoku.table = inp_board
+        sudoku.sudoku_to_mask.table = inp_board
         sudoku.fill_removal(inp_how_many_remain)
-        result = sudoku.table
+        result = sudoku.sudoku_to_mask.table
         count_remaining = 0    
         for i in range(9):
             for j in range (9):
@@ -343,7 +336,7 @@ class TestSudokuTask(unittest.TestCase):
     def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one(self):
         inp_table = self.TAB13
         sudoku = main.SudokuGenerator()
-        sudoku.table = inp_table
+        sudoku.sudoku_to_mask.table = inp_table
         result = sudoku.check_how_many_solutions(0)
         expected = 1
         self.assertEqual(result,expected)
@@ -351,7 +344,7 @@ class TestSudokuTask(unittest.TestCase):
     def test_checking_how_many_solutions_given_sudoku_with_unique_solution_returns_one_2(self):
         inp_table = self.TAB14
         sudoku = main.SudokuGenerator()
-        sudoku.table = inp_table
+        sudoku.sudoku_to_mask.table = inp_table
         result = sudoku.check_how_many_solutions(0)
         expected = 1
         self.assertEqual(result,expected)
@@ -359,7 +352,7 @@ class TestSudokuTask(unittest.TestCase):
     def test_checking_how_many_solutions_given_sudoku_with_more_than_one_solution_returns_more_than_one(self):
         inp_table = self.TAB1
         sudoku = main.SudokuGenerator()
-        sudoku.table = inp_table
+        sudoku.sudoku_to_mask.table = inp_table
         result = sudoku.check_how_many_solutions(0)
         expected = 1
         self.assertGreater(result,expected)
@@ -368,7 +361,7 @@ class TestSudokuTask(unittest.TestCase):
         start = time.time()
         inp_table = self.TABE
         sudoku = main.SudokuGenerator()
-        sudoku.table = inp_table
+        sudoku.sudoku_to_mask.table = inp_table
         result = sudoku.check_how_many_solutions(0)
         finish = time.time()
         runtime = finish - start
@@ -423,5 +416,5 @@ class TestSudokuTask(unittest.TestCase):
         inp_how_many_remain = 10
         sudoku = main.SudokuGenerator()
         result = sudoku.generate_single_solutional_final(inp_how_many_remain)
-        expected = "I cannot generate single solutional sudoku with that few numbers"
+        expected = "I cannot generate single solutional sudoku with that few numbers in risonable time"
         self.assertEqual(expected, result)
