@@ -340,7 +340,7 @@ class TestSudokuTask(unittest.TestCase):
         sudoku = main.SudokuGenerator()
         result = str(sudoku.generate_single_solutional_sudoku(80))
         
-        digits = ['X','1','2','3','4','5','6','7','8','9']
+        digits = 'X123456789'
         wall_1 = '|'
         wall_2 = '-'
         space = ' '
